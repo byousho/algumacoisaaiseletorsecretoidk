@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ações Proibidas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@400;500&family=Yusei+Magic&family=DotGothic16&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sky-top:#8fc6e8;
+  --sky-low:#e8f3f0;
+  --paper:#fbf6e4;
+  --paper-2:#f3ead0;
+  --ink:#3a2e22;
+  --ink-soft:#6b5a45;
+  --line:#b9d3e6;
+  --margin:#e39a8f;
+  --wood:#9a6b3f;
+  --wood-dk:#6d4826;
+  --green:#5f8a3a;
+  --green-dk:#3f6224;
+  --red:#c8412d;
+  --red-dk:#8f2a1b;
+  --tape:rgba(246,221,120,.85);
+  --title:'Kiwi Maru','Yusei Magic',serif;
+  --hand:'Yusei Magic','Kiwi Maru',cursive;
+  --pc:'DotGothic16',monospace;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  /* Para usar uma foto sua de fundo: --bg-photo:url("minha-foto.jpg"); */
+  --bg-photo:https://i.imgur.com/27KbfNG.png;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100vh}
+body{
+  font-family:var(--sans);color:var(--ink);
+  background:var(--bg-photo) center/cover fixed,
+    linear-gradient(180deg,var(--sky-top) 0%,#b7dcef 35%,var(--sky-low) 62%,#e9efd8 100%) fixed;
+  overflow-x:hidden;
+}
+/* leve desbotado de foto antiga */
+body::after{
+  content:"";position:fixed;inset:0;z-index:40;pointer-events:none;
+  background:radial-gradient(ellipse at center,transparent 60%,rgba(120,90,40,.18) 100%),
+             linear-gradient(180deg,rgba(255,236,190,.12),rgba(255,236,190,.12));
+  mix-blend-mode:multiply;
+}
+.scenery{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+
+main{position:relative;z-index:2;max-width:980px;margin:auto;padding:28px 18px 80px}
+
+/* ---------- papel / quadro ---------- */
+.sheet{
+  position:relative;background:var(--paper);
+  border:1px solid #d9cba5;
+  box-shadow:0 1px 0 #fff inset,0 6px 0 -2px var(--paper-2),0 7px 0 -2px #d9cba5,0 12px 22px rgba(60,45,20,.22);
+}
+/* fita adesiva */
+.tape{
+  position:absolute;top:-14px;left:50%;width:110px;height:26px;margin-left:-55px;
+  background:var(--tape);transform:rotate(-3deg);
+  box-shadow:0 1px 2px rgba(0,0,0,.12);
+}
+.pin{
+  position:absolute;top:10px;width:14px;height:14px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,#ff8a7a,var(--red) 55%,var(--red-dk));
+  box-shadow:1px 2px 2px rgba(0,0,0,.3);
+}
+.pin.l{left:12px}.pin.r{right:12px}
+
+/* ---------- título: placa do clube ---------- */
+.title-screen{padding:30px 26px 22px;margin:10px 0 34px;text-align:center}
+.kicker{font-family:var(--pc);font-size:.85rem;letter-spacing:.2em;color:var(--green-dk)}
+.title-screen h1{
+  font-family:var(--title);font-weight:500;margin:6px 0 4px;
+  font-size:clamp(2rem,6vw,3.3rem);line-height:1.15;color:var(--ink);
+}
+.subtitle{font-family:var(--hand);font-size:1.15rem;color:var(--red)}
+.title-screen p{color:var(--ink-soft);max-width:620px;margin:14px auto 0;line-height:1.6}
+.title-screen p b{color:var(--red-dk)}
+.date{position:absolute;left:16px;bottom:10px;font-family:var(--hand);font-size:.9rem;color:#9a8a6c}
+
+/* carimbo hanko */
+.hanko{
+  position:absolute;right:22px;top:22px;width:62px;height:62px;border-radius:50%;
+  border:3px solid var(--red);color:var(--red);
+  display:grid;place-items:center;text-align:center;
+  font-family:var(--title);font-size:1.5rem;line-height:1;
+  transform:rotate(-12deg);opacity:.8;
+  box-shadow:inset 0 0 0 2px rgba(200,65,45,.25);
+}
+.hanko small{display:block;font-size:.5rem;font-family:var(--pc);letter-spacing:.05em;margin-top:2px}
+
+/* ---------- painéis ---------- */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.panel{padding:30px 20px 20px;margin-bottom:26px}
+.grid .panel{margin-bottom:0}
+.panel:nth-child(2){transform:rotate(.4deg)}
+.panel h2{
+  position:absolute;top:-16px;left:18px;margin:0;
+  font-family:var(--title);font-weight:500;font-size:1.05rem;
+  padding:4px 14px;background:var(--tape);color:var(--ink);
+  transform:rotate(-2deg);box-shadow:0 1px 2px rgba(0,0,0,.15);
+}
+.panel.green h2{background:rgba(175,215,140,.9)}
+.panel.pink h2{background:rgba(245,190,180,.9)}
+.hint,p{color:var(--ink-soft);line-height:1.55}
+.hint{font-size:.9rem;margin:4px 0 12px}
+.hint b{color:var(--red)}
+
+/* caderno pautado */
+textarea{
+  width:100%;min-height:230px;resize:vertical;
+  padding:6px 12px 6px 44px;border:1px solid #d6c9a4;border-radius:0;
+  font:16px/26px var(--sans);color:var(--ink);
+  background:
+    linear-gradient(90deg,transparent 34px,var(--margin) 34px,var(--margin) 35px,transparent 35px),
+    repeating-linear-gradient(180deg,transparent 0 25px,var(--line) 25px 26px),
+    #fffdf5;
+  background-attachment:local;
+}
+textarea::placeholder{color:#b6a888}
+textarea:focus{outline:2px solid rgba(95,138,58,.5);outline-offset:1px}
+
+/* ---------- botões estilo PC antigo ---------- */
+button{
+  position:relative;font:700 .95rem var(--sans);cursor:pointer;
+  padding:9px 18px 9px 28px;margin:6px 8px 0 0;border-radius:3px;
+  background:linear-gradient(180deg,#fff9e6,#e9dcb6);color:var(--ink);
+  border:2px solid;border-color:#fff #a8966c #a8966c #fff;
+  box-shadow:1px 1px 0 #7d6c48;
+}
+button::before{
+  content:"▶";position:absolute;left:10px;top:50%;transform:translateY(-50%);
+  font-size:.65rem;color:var(--red);opacity:0;
+}
+button:hover:not(:disabled),button:focus-visible{
+  background:linear-gradient(180deg,#ffe7b8,#f6b867);border-color:#fff3d6 #b8732a #b8732a #fff3d6;
+  animation:wobble .3s ease-in-out;outline:none;
+}
+button:hover:not(:disabled)::before,button:focus-visible::before{opacity:1}
+button:active:not(:disabled){border-color:#a8966c #fff #fff #a8966c;transform:translateY(1px)}
+button.primary{
+  font-size:1.05rem;padding:11px 24px 11px 32px;color:#fff;
+  background:linear-gradient(180deg,#e0634c,var(--red));
+  border-color:#f3a192 var(--red-dk) var(--red-dk) #f3a192;
+}
+button.primary::before{color:#fff4c2}
+button.primary:hover:not(:disabled){background:linear-gradient(180deg,#f07a55,#d44e2e)}
+button.secondary{
+  color:#fff;background:linear-gradient(180deg,#7fa856,var(--green));
+  border-color:#b4d192 var(--green-dk) var(--green-dk) #b4d192;
+}
+button.secondary::before{color:#fff4c2}
+button.secondary:hover:not(:disabled){background:linear-gradient(180deg,#93ba68,#6a9a40)}
+button.danger{color:#fff;background:linear-gradient(180deg,#a0806a,#7a5c46);border-color:#cdb4a0 #4e3a2b #4e3a2b #cdb4a0}
+button.danger::before{color:#fff4c2}
+button:disabled{opacity:.45;cursor:not-allowed}
+@keyframes wobble{0%,100%{transform:rotate(0)}30%{transform:rotate(-1.2deg)}70%{transform:rotate(1.2deg)}}
+
+/* ---------- status ---------- */
+#status>div{
+  margin-top:14px;padding:10px 14px;background:#fffdf5;
+  border:1px dashed #cbbd96;font-family:var(--title);
+}
+.warn{color:var(--red-dk);border-left:5px solid var(--red)!important}
+.success{color:var(--green-dk);border-left:5px solid var(--green)!important}
+#status p.hint{margin-top:10px}
+
+/* ---------- lista de links ---------- */
+#results{margin-top:8px}
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:11px 0;border-bottom:1px dashed #d6c9a4}
+.row:last-of-type{border-bottom:0}
+.name{font-family:var(--title);font-size:1.05rem;min-width:170px}
+.name::before{content:"✿ ";color:var(--red);font-size:.8em}
+.link{
+  flex:1;min-width:250px;padding:7px 10px;font:.82rem ui-monospace,Consolas,monospace;
+  background:#fffdf5;color:var(--ink-soft);border:1px solid #d6c9a4;border-radius:2px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap
+}
+.link:focus{outline:2px solid rgba(95,138,58,.5)}
+button.copy{margin:0;padding:6px 12px 6px 24px;font-size:.85rem}
+.small{font-size:.9rem;color:var(--ink-soft)}
+.tag{
+  display:inline-block;padding:3px 12px;font-family:var(--pc);font-size:.8rem;letter-spacing:.12em;
+  background:var(--green);color:#fff;border-radius:2px
+}
+.hidden{display:none!important}
+
+/* ---------- tela do participante ---------- */
+.reveal{min-height:calc(100vh - 110px);display:grid;place-items:center;padding:20px 0}
+.card{max-width:620px;width:100%;text-align:center;padding:46px 30px 32px}
+.card h1{font-family:var(--title);font-weight:500;font-size:clamp(1.6rem,4.5vw,2.2rem);margin:16px 0 4px}
+.card .hanko{top:-18px;right:-10px;background:var(--paper)}
+.who{font-family:var(--hand);color:var(--green-dk);font-size:1.1rem}
+.item{
+  font-family:var(--hand);font-size:clamp(2rem,7vw,4rem);line-height:1.2;
+  margin:18px 0 14px;word-break:break-word;color:var(--red);
+  animation:pop .5s ease-out both;
+}
+@keyframes pop{from{opacity:0;transform:scale(.85) rotate(-3deg)}to{opacity:1;transform:none}}
+.next{display:block;color:var(--red);animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* ---------- janela de VN antiga (decorativa) ---------- */
+.vn-menu{
+  position:fixed;left:0;right:0;bottom:0;z-index:5;
+  display:flex;gap:2px;flex-wrap:wrap;justify-content:flex-end;
+  padding:5px 12px;font-family:var(--pc);font-size:.78rem;letter-spacing:.08em;
+  background:rgba(255,253,240,.82);border-top:1px solid #cbbd96;color:#7b6a4c;user-select:none
+}
+.vn-menu span{padding:1px 8px;cursor:default;border:1px solid transparent}
+.vn-menu span:hover{color:var(--red);border-color:#e3b9a8;background:#fff}
+.vn-menu .left{margin-right:auto;color:var(--green-dk)}
+
+@media(max-width:720px){
+  .grid{grid-template-columns:1fr;gap:36px}
+  .panel:nth-child(2){transform:none}
+  .name{min-width:120px}
+  .title-screen .hanko{width:50px;height:50px;font-size:1.2rem;right:10px;top:10px}
+  .date{position:static;display:block;margin-top:10px}
+  .vn-menu .opt{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  .item,.next,button:hover:not(:disabled){animation:none}
+  .scenery .cloud{animation:none}
+}
+.scenery .cloud{animation:drift 90s linear infinite alternate}
+@keyframes drift{from{transform:translateX(-30px)}to{transform:translateX(30px)}}
+</style>
+</head>
+<body>
+
+<!-- Cenário original: tarde de verão no interior (nuvens, montanhas, escola de madeira, arrozais) -->
+<svg class="scenery" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+  <g class="cloud" fill="#fff" opacity=".95">
+    <ellipse cx="220" cy="190" rx="120" ry="55"/><ellipse cx="300" cy="160" rx="90" ry="70"/>
+    <ellipse cx="370" cy="200" rx="100" ry="45"/><ellipse cx="160" cy="215" rx="70" ry="30"/>
+    <ellipse cx="880" cy="120" rx="140" ry="70"/><ellipse cx="970" cy="80" rx="100" ry="85"/>
+    <ellipse cx="1060" cy="130" rx="110" ry="55"/><ellipse cx="930" cy="160" rx="160" ry="35"/>
+  </g>
+  <!-- montanhas -->
+  <path fill="#9fc0a9" d="M0 470 Q120 400 240 440 T480 420 T720 450 T960 410 T1200 440 V800 H0Z"/>
+  <path fill="#6f9a6a" d="M0 510 Q150 450 300 490 T600 480 T900 500 T1200 470 V800 H0Z"/>
+  <!-- linha de cedros -->
+  <g fill="#4f7a45">
+    <path d="M40 540 L60 480 L80 540Z M90 545 L115 470 L140 545Z M150 540 L168 490 L186 540Z
+             M960 540 L985 465 L1010 540Z M1020 545 L1040 490 L1060 545Z M1070 540 L1098 470 L1126 540Z M1130 545 L1150 495 L1170 545Z"/>
+  </g>
+  <!-- escola de madeira -->
+  <g transform="translate(700 450)">
+    <path fill="#7c5a3b" d="M-10 40 L110 0 L230 40Z"/>
+    <rect x="0" y="40" width="220" height="80" fill="#c89a63"/>
+    <g fill="#e8f2f4" stroke="#6d4826" stroke-width="3">
+      <rect x="14" y="55" width="34" height="28"/><rect x="60" y="55" width="34" height="28"/>
+      <rect x="126" y="55" width="34" height="28"/><rect x="172" y="55" width="34" height="28"/>
+    </g>
+    <rect x="100" y="78" width="20" height="42" fill="#6d4826"/>
+    <g stroke="#a47a4b" stroke-width="1"><line x1="0" y1="95" x2="220" y2="95"/><line x1="0" y1="108" x2="220" y2="108"/></g>
+    <rect x="-40" y="118" width="300" height="8" fill="#b8a27a"/>
+  </g>
+  <!-- poste e fios -->
+  <rect x="330" y="330" width="7" height="240" fill="#6a5238"/>
+  <rect x="312" y="345" width="44" height="5" fill="#6a5238"/>
+  <path d="M0 360 Q170 395 315 348 M352 348 Q800 400 1200 360" stroke="#5a4630" stroke-width="1.3" fill="none"/>
+  <!-- arrozais -->
+  <path fill="#8fbf4f" d="M0 570 H1200 V800 H0Z"/>
+  <g stroke="#7aa83e" stroke-width="2" opacity=".8">
+    <line x1="0" y1="600" x2="1200" y2="600"/><line x1="0" y1="640" x2="1200" y2="640"/>
+    <line x1="0" y1="690" x2="1200" y2="690"/><line x1="0" y1="750" x2="1200" y2="750"/>
+  </g>
+  <path d="M520 800 Q560 680 600 570 L640 570 Q640 680 700 800Z" fill="#d9c79c"/>
+</svg>
+
+<main id="app"></main>
+
+<nav class="vn-menu" aria-hidden="true">
+  <span class="left">部活動 // 罰ゲーム</span>
+  <span class="opt">Q.SAVE</span><span class="opt">Q.LOAD</span>
+  <span>SAVE</span><span>LOAD</span><span>LOG</span><span>SKIP</span><span class="opt">AUTO</span><span class="opt">CONFIG</span>
+</nav>
+
+<script>
+"use strict";
+
+/*
+  SELETOR DE DESAFIOS — SORTEIO PRIVADO
+
+  Cada participante recebe um link individual.
+  O resultado fica codificado na parte # da URL.
+  A página não mostra a tabela participante -> item.
+
+  REGRA DOS CAMPOS:
+  - Um item por linha funciona.
+  - Para colocar vários na mesma linha, use | como separador.
+  - Vírgula NÃO é separador e pode fazer parte do nome do item.
+
+  Qualquer pessoa que possuir o link poderá ver aquele resultado.
+*/
+
+const app=document.getElementById("app");
+
+const enc=s=>btoa(unescape(encodeURIComponent(s)))
+  .replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+
+const dec=s=>decodeURIComponent(escape(
+  atob(s.replace(/-/g,"+").replace(/_/g,"/")+"===".slice((s.length+3)%4))
+));
+
+function rnd(n){
+  const a=new Uint32Array(1);
+  crypto.getRandomValues(a);
+  return a[0]%n;
+}
+
+function shuffle(a){
+  a=[...a];
+  for(let i=a.length-1;i>0;i--){
+    const j=rnd(i+1);
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function baseUrl(){
+  return location.href.split("#")[0];
+}
+
+function makeLink(name,item,index){
+  const payload={v:1,n:name,i:item,k:index};
+  return baseUrl()+"#r="+enc(JSON.stringify(payload));
+}
+
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[c]));
+}
+
+/*
+  PARSER:
+  - "|" é o separador explícito.
+  - Sem "|" cada linha é uma entrada.
+  - Vírgulas, ponto-e-vírgula etc. NÃO separam.
+  - Remove numeração/bullets no início.
+*/
+function parseList(raw){
+  const text=raw.replace(/\r\n?/g,"\n").trim();
+  if(!text) return [];
+
+  let parts;
+
+  if(text.includes("|")){
+    parts=text.split("|");
+  }else{
+    parts=text.split("\n");
+  }
+
+  return [...new Set(
+    parts
+      .map(x=>x
+        .trim()
+        .replace(/^\s*(?:[-*•▪◦]\s+|\d+\s*[\.\)\-:]\s*)/,"")
+        .trim()
+      )
+      .filter(Boolean)
+  )];
+}
+
+function reveal(payload){
+  const who=payload.n!==undefined?`<div class="who">para: ${escapeHtml(payload.n)}</div>`:"";
+  app.innerHTML=`<div class="reveal"><section class="card sheet">
+    <div class="tape"></div>
+    <div class="hanko">罰<small>BATSU</small></div>
+    <div class="tag">CLUBE DE JOGOS</div>
+    <h1>Seu desafio está pronto.</h1>
+    ${who}
+    <p>Este link contém somente o resultado desta pessoa.</p>
+    <button id="open" class="primary">Revelar meu desafio</button>
+    <div id="result" class="hidden">
+      <div class="small">Seu desafio é:</div>
+      <div class="item">${escapeHtml(payload.i)}</div>
+      <p>Guarde este link se quiser consultar seu resultado novamente.</p>
+      <span class="next" aria-hidden="true">▼</span>
+    </div>
+  </section></div>`;
+
+  document.getElementById("open").onclick=()=>{
+    document.getElementById("open").classList.add("hidden");
+    document.getElementById("result").classList.remove("hidden");
+  };
+}
+
+function organizer(){
+app.innerHTML=`<header class="title-screen sheet">
+  <span class="pin l"></span><span class="pin r"></span>
+  <div class="hanko">罰<small>BATSU</small></div>
+  <div class="kicker">部活動 · CLUBE DE JOGOS</div>
+  <h1>Seletor de Desafios</h1>
+  <div class="subtitle">Hinamizawa Game Club Edition · Especial de Verão</div>
+  <p>Insira os participantes e os desafios. Cada pessoa recebe um link individual com um desafio sorteado, <b>sem repetição</b>. Pode haver mais desafios que participantes.</p>
+  <div class="date">昭和58年 夏</div>
+</header>
+
+<div class="grid">
+<section class="panel sheet green">
+  <h2>Participantes</h2>
+  <p class="hint">Insira os nomes, um por linha, ou separe com <b>|</b>.</p>
+  <textarea id="people" placeholder=""></textarea>
+</section>
+
+<section class="panel sheet pink">
+  <h2>Desafios</h2>
+  <p class="hint">Insira os desafios, um por linha, ou separe com <b>|</b>. Vírgulas podem fazer parte do desafio.</p>
+  <textarea id="items" placeholder=""></textarea>
+</section>
+</div>
+
+<section class="panel sheet">
+  <h2>Sorteio</h2>
+  <button id="draw" class="primary">Gerar links secretos</button>
+  <button class="secondary" id="example">Preencher exemplo</button>
+  <div id="status"></div>
+  <div id="results"></div>
+</section>`;
+
+document.getElementById("example").onclick=()=>{
+  document.getElementById("people").value=[
+    "Ana","Bruno","Carlos","Diana","Eduardo","Fernanda","Gabriel","Helena",
+    "Igor","Julia","Kauã","Larissa","Marcos","Nina","Otávio","Paula"
+  ].join("\n");
+
+  document.getElementById("items").value=[
+    "Desafio #01","Desafio #02","Desafio #03",
+    "Desafio #04","Desafio #05","Desafio #06",
+    "Desafio #07","Desafio #08","Desafio #09",
+    "Desafio #10","Desafio #11","Desafio #12",
+    "Desafio #13","Desafio #14","Desafio #15",
+    "Desafio #16","Desafio #17","Desafio #18",
+    "Desafio #19","Desafio #20","Desafio #21",
+    "Desafio #22","Desafio #23","Desafio #24",
+    "Desafio #25","Desafio #26","Desafio #27",
+    "Desafio #28","Desafio #29","Desafio #30"
+  ].join("\n");
+};
+
+document.getElementById("draw").onclick=()=>{
+  const people=parseList(document.getElementById("people").value);
+  const items=parseList(document.getElementById("items").value);
+  const status=document.getElementById("status");
+  const results=document.getElementById("results");
+
+  if(!people.length||!items.length){
+    status.innerHTML='<div class="warn">Preencha participantes e desafios.</div>';
+    return;
+  }
+
+  if(items.length<people.length){
+    status.innerHTML=`<div class="warn">Você precisa de pelo menos ${people.length} desafios para ${people.length} participantes.</div>`;
+    return;
+  }
+
+  const chosen=shuffle(items).slice(0,people.length);
+  const assigned=shuffle(people).map((p,i)=>({p,item:chosen[i]}));
+
+  status.innerHTML=`<div class="success">
+    Sorteio concluído: ${people.length} participantes, ${items.length} desafios.
+    ${items.length-people.length} desafios ficaram de fora.
+  </div>
+  <p class="hint">
+    Os desafios NÃO aparecem nesta lista. Copie o link de cada pessoa e envie individualmente.
+    Não abra os links se quiser continuar sem saber os resultados.
+  </p>`;
+
+  results.innerHTML=assigned.map((x,i)=>{
+    const link=makeLink(x.p,x.item,i);
+
+    return `<div class="row">
+      <div class="name">${escapeHtml(x.p)}</div>
+      <input class="link" readonly value="${escapeHtml(link)}">
+      <button class="copy" data-link="${escapeHtml(link)}">Copiar link</button>
+    </div>`;
+  }).join("")+
+  `<div style="margin-top:16px">
+    <button class="secondary" id="copyAll">Copiar todos os links</button>
+    <button class="danger" id="clear">Apagar resultado desta tela</button>
+  </div>`;
+
+  document.querySelectorAll(".copy").forEach(b=>{
+    b.onclick=async()=>{
+      await navigator.clipboard.writeText(b.dataset.link);
+      b.textContent="Copiado ✓";
+      setTimeout(()=>b.textContent="Copiar link",1200);
+    };
+  });
+
+  document.getElementById("copyAll").onclick=async()=>{
+    const text=assigned.map((x,i)=>
+      `${x.p}: ${makeLink(x.p,x.item,i)}`
+    ).join("\n");
+
+    await navigator.clipboard.writeText(text);
+    document.getElementById("copyAll").textContent="Copiado ✓";
+  };
+
+  document.getElementById("clear").onclick=()=>{
+    results.innerHTML="";
+    status.innerHTML='<div class="success">Resultados apagados desta tela. Os links que você já copiou continuam funcionando.</div>';
+  };
+};
+}
+
+const hash=location.hash;
+
+if(hash.startsWith("#r=")){
+  try{
+    const p=JSON.parse(dec(hash.slice(3)));
+    if(p&&p.i!==undefined) reveal(p);
+    else organizer();
+  }catch(e){
+    organizer();
+  }
+}else{
+  organizer();
+}
+</script>
+</body>
+</html>
